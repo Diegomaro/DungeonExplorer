@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 
 class Monster{
@@ -22,6 +23,8 @@ public:
 
     bool operator >(Monster &RIGHT);
     bool operator <(Monster &RIGHT);
+    bool operator >=(Monster &RIGHT);
+
     friend std::ostream& operator <<(std::ostream &COUT, Monster &MONSTER);
 private:
     std::string _name;

@@ -32,19 +32,19 @@ bool DoubleLinkedList<T>::insertHead(T data) {
 		return false;
 
 	newNode->_next = _head;
-
+	if(_head){
+		_head->_prev = newNode;
+	}
 	_head = newNode;
 	if(!_head->_next){
 		_tail = _head;
 	}
-
 	return true;
 }
 
 template <typename T>
 bool DoubleLinkedList<T>::insertTail(T data){
-	Node* newNode = nullptr; 
-	newNode = new(std::nothrow) Node(data);
+	Node* newNode = new(std::nothrow) Node(data);
 	if(!newNode) return false;
 	
 	if(!_head){
@@ -59,6 +59,30 @@ bool DoubleLinkedList<T>::insertTail(T data){
 }
 
 template <typename T>
+bool DoubleLinkedList<T>::InsertNodeInOrder(T data){
+	Node* tmp = _head;
+	while(tmp){
+		if(tmp->_data >= data){
+			if(!tmp->_prev) return insertHead(data);
+			else if(!tmp->_next) return insertTail(data);
+			else{
+				Node* newNode = new(std::nothrow) Node(data);
+				if(!newNode) return false;
+				tmp = tmp->_prev;
+				Node* tmpNext = tmp->_next;
+				tmp->_next = newNode;
+				newNode->_prev = tmp;
+				newNode->_next = tmpNext;
+				tmpNext->_prev = newNode;
+				return true;
+			}
+		} else if(!tmp->_next) return insertTail(data);	
+		tmp = tmp->_next;
+	}
+	return false;
+}
+
+template <typename T>
 bool DoubleLinkedList<T>::deleteHead(){
 	if(!_head){
 		return false;
@@ -69,7 +93,7 @@ bool DoubleLinkedList<T>::deleteHead(){
 		_tail = nullptr;
 		return true;	
 	}
-	Node* temp = head->_next;
+	Node* temp = _head->_next;
 	temp->_prev = nullptr;
 	delete _head;
 	_head = temp;
@@ -89,7 +113,7 @@ bool DoubleLinkedList<T>::deleteTail(){
 	}
 
 	Node* temp = _tail;
-	temp = tail->prev;
+	temp = _tail->prev;
 	delete _tail;
 	_tail = temp;
 	_tail->_next = nullptr;
@@ -160,9 +184,15 @@ bool DoubleLinkedList<T>::printAll(){
 	index = _head; 
 	std::cout << "lista:" << std::endl;
     while(index != nullptr){
-        std::cout << index->_data << ", ";
+        std::cout << "Room with: " <<index->_data << std::endl;
         index = index->_next;
     }
+	return true;
+}
+
+template <typename T>
+bool DoubleLinkedList<T>::isEmpty(){
+	if(_head) return false;
 	return true;
 }
 

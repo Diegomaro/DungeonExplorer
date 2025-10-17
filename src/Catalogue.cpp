@@ -2,9 +2,12 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
 #include "Catalogue.hpp"
 
-Catalogue::Catalogue(){}
+Catalogue::Catalogue(){
+    _size = 0;
+}
 
 Catalogue::~Catalogue(){}
 
@@ -15,7 +18,7 @@ bool Catalogue::loadFromCSV(const std::string& filename){
     if(!file.is_open()){
         return false;
     }
-
+    //loading monsters...
     std::getline(file,line);
     //gets rid of the definition line
     while(std::getline(file, line)){
@@ -28,13 +31,10 @@ bool Catalogue::loadFromCSV(const std::string& filename){
             ctr++;
         }
         tree.insertNode(monster);
+        _size++;
     }
     file.close();
     return true;
-}
-
-bool Catalogue::printAllMonsters(){
-    return tree.printAll();
 }
 
 void Catalogue::loadCurrentAttribute(Monster &monster, std::stringstream &ss, std::string cell, int ctr){
@@ -71,4 +71,12 @@ void Catalogue::loadCurrentAttribute(Monster &monster, std::stringstream &ss, st
             std::cout << "Error defining monsters!" << std::endl;
         }
     }
+}
+
+Monster* Catalogue::getRandomMonster(){
+    return tree.getRandomNode();
+}
+
+bool Catalogue::printAllMonsters(){
+    return tree.printAll();
 }
