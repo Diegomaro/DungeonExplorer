@@ -4,7 +4,7 @@
 template <typename T>
 BinaryTree<T>::Node::Node(): left(nullptr), right(nullptr), subSize(1){};
 template <typename T>
-BinaryTree<T>::Node::Node(T data): data(data), left(nullptr), right(nullptr), subSize(1){};
+BinaryTree<T>::Node::Node(T nData): data(nData), left(nullptr), right(nullptr), subSize(1){};
 
 template <typename T>
 BinaryTree<T>::BinaryTree(): root(nullptr) {};
@@ -15,8 +15,8 @@ BinaryTree<T>::~BinaryTree(){
 }
 
 template <typename T>
-bool BinaryTree<T>::insertNode(T data){
-    Node* newNode = new(std::nothrow) Node(data);
+bool BinaryTree<T>::insertNode(T nData){
+    Node* newNode = new(std::nothrow) Node(nData);
     if(!newNode){
         return false;
     }
@@ -28,7 +28,7 @@ bool BinaryTree<T>::insertNode(T data){
 
     while(tmp->left || tmp->right){
         tmp->subSize++;
-        if(tmp->data > data) {
+        if(tmp->data > nData) {
             if(tmp->left){
                 tmp = tmp->left;
             } else{
@@ -36,7 +36,7 @@ bool BinaryTree<T>::insertNode(T data){
                 return true;
             }
         }
-        else if(tmp->data < data) {
+        else if(tmp->data < nData) {
             if(tmp->right){
                 tmp = tmp->right;
             } else{
@@ -49,17 +49,17 @@ bool BinaryTree<T>::insertNode(T data){
             tmp = root;
             while(tmp){
                 tmp->subSize--;
-                if(data > tmp->data) tmp = tmp->right;
-                else if(data < tmp->data) tmp = tmp->left;
+                if(nData > tmp->data) tmp = tmp->right;
+                else if(nData < tmp->data) tmp = tmp->left;
                 else return false;
             }
         }
     }
     tmp->subSize++;
-    if(data < tmp->data){
+    if(nData < tmp->data){
         tmp->left = newNode;
         return true;
-    } else if (data > tmp->data){
+    } else if (nData > tmp->data){
         tmp->right = newNode;
         return true;
     }
@@ -68,19 +68,19 @@ bool BinaryTree<T>::insertNode(T data){
 }
 
 template <typename T>
-bool BinaryTree<T>::deleteNode(T data){
-    return findNodeToDelete(root, data);
+bool BinaryTree<T>::deleteNode(T nData){
+    return findNodeToDelete(root, nData);
 }
 
 template <typename T>
-bool BinaryTree<T>::findNodeToDelete(Node *&node, T data){
+bool BinaryTree<T>::findNodeToDelete(Node *&node, T nData){
     if(!node) return false;
-    if(node->data < data) {
-        bool found = findNodeToDelete(node->right, data);
+    if(node->data < nData) {
+        bool found = findNodeToDelete(node->right, nData);
         if(found) node->subSize--;
         return found;
-    } else if(node->data > data) {
-        bool found = findNodeToDelete(node->left, data);
+    } else if(node->data > nData) {
+        bool found = findNodeToDelete(node->left, nData);
         if(found) node->subSize--;
         return found;
     } else{
@@ -134,19 +134,19 @@ typename BinaryTree<T>::Node *&BinaryTree<T>::findMinNode(Node *&node){
 }
 
 template <typename T>
-bool BinaryTree<T>::searchNode(T data){
-    return searchNodeExecution(root, data);
+bool BinaryTree<T>::searchNode(T nData){
+    return searchNodeExecution(root, nData);
 }
 
 template <typename T>
-bool BinaryTree<T>::searchNodeExecution(Node* node, T data){
+bool BinaryTree<T>::searchNodeExecution(Node* node, T nData){
     if(!node){
         return false;
     }
-    if(data < node->data){
-        return searchNodeExecution(node->left, data);
-    } else if(data > node->data){
-        return searchNodeExecution(node->right, data);
+    if(nData < node->data){
+        return searchNodeExecution(node->left, nData);
+    } else if(nData > node->data){
+        return searchNodeExecution(node->right, nData);
     } 
     return true;
 }
@@ -165,7 +165,7 @@ T *BinaryTree<T>::getRandomNode(){
 template <typename T>
 typename BinaryTree<T>::Node *BinaryTree<T>::getRandomNodeExecute(Node* node){
     if(!node) return nullptr;
-    int x = rand() %(node->subSize);
+    int x = rand() % (node->subSize);
     if(x==0){
         return node;
     }
@@ -190,7 +190,7 @@ typename BinaryTree<T>::Node *BinaryTree<T>::getRandomNodeExecute(Node* node){
 template <typename T>
 bool BinaryTree<T>::printAll(){
     if (!root) return false;
-    std::cout << "arbol:" << std::endl;
+    std::cout << "Tree:" << std::endl;
     printAllExecution(root, 0);
     return true;
 }

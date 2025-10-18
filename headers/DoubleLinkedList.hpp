@@ -4,21 +4,20 @@ class DoubleLinkedList {
 public:
 	class Node {
 	public:
-		T _data;
-		Node *_next;
-        Node* _prev;
+		T data;
+		Node *next;
+        Node* prev;
 		Node();
-		Node(T data);
+		Node(T nData);
 	};
-
 	DoubleLinkedList();
 	~DoubleLinkedList();
-	bool insertHead(T data);
-	bool insertTail(T data);
-	bool InsertNodeInOrder(T data); // for player
+	bool insertHead(T nData);
+	bool insertTail(T nData);
+	bool insertNodeInOrder(T nData);
 	bool deleteHead();
 	bool deleteTail();
-	bool deleteNode(T data);
+	bool deleteNode(T nData);
 	bool deleteNode(Node* node);
 	bool printAll();
 	bool isEmpty();

@@ -23,6 +23,6 @@ bool Player::slayedMonster(Monster *pMonster){
         return false;
     }
     Monster copyMonster = *pMonster;
-    slayedMonsters.InsertNodeInOrder(copyMonster);
+    slayedMonsters.insertNodeInOrder(copyMonster);
     return true;
 }

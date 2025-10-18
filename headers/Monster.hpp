@@ -6,32 +6,29 @@ public:
     Monster();
     ~Monster();
     void setName(std::string);
-    void setCr(float);
+    void setCr(double cr);
     void setType(std::string);
     void setSize(std::string);
-    void setAc(short);
-    void setHp(short);
+    void setAc(int ac);
+    void setHp(int hp);
     void setAllign(std::string);
-
     std::string getName();
-    float getCr();
+    double getCr();
     std::string getType();
     std::string getSize();
-    short getAc();
-    short getHp();
+    int getAc();
+    int getHp();
     std::string getAllign();
-
-    bool operator >(Monster &RIGHT);
-    bool operator <(Monster &RIGHT);
-    bool operator >=(Monster &RIGHT);
-
-    friend std::ostream& operator <<(std::ostream &COUT, Monster &MONSTER);
+    bool operator > (Monster &RIGHT);
+    bool operator < (Monster &RIGHT);
+    bool operator >= (Monster &RIGHT);
+    friend std::ostream& operator << (std::ostream &COUT, Monster &MONSTER);
 private:
     std::string _name;
-    float _cr; //challenge rating
+    double _cr; //challenge rating
     std::string _type;
     std::string _size;
-    short _ac; //armor class
-    short _hp; //hit points
+    int _ac; //armor class
+    int _hp; //hit points
     std::string _align; //behaviour inclination
 };

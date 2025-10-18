@@ -8,7 +8,7 @@ int main(){
     Catalogue catalogue;
     Dungeon dungeon;
     if(!catalogue.loadFromCSV("media/monsters.csv")){
-        std::cout << "Could not create file!" << std::endl;
+        std::cout << "Could not create catalogue!" << std::endl;
         return 0;
     }
     std::cout << "Creating Dungeon..." << std::endl;
@@ -19,7 +19,6 @@ int main(){
             std::cout << "Error obtaining random monster!" << std::endl;
             return 0;
         }
-
         Monster copyMonster = *pMonster;
         if(!dungeon.createRoom(copyMonster)){
             std::cout << "Could not create room!" << std::endl;

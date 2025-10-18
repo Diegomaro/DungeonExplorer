@@ -7,8 +7,8 @@ class Player{
 public: 
     Player();
     ~Player();
-    void alterHp(short hp); //checar esto
-    void setName(std::string);
+    void alterHp(short hp);
+    void setName(std::string name);
     bool slayedMonster(Monster *pMonster);
 private:
     #define MAX_HEALTH 999

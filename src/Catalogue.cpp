@@ -2,11 +2,13 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <ctime>
 
 #include "Catalogue.hpp"
 
 Catalogue::Catalogue(){
     _size = 0;
+    std::srand((std::time(nullptr)));
 }
 
 Catalogue::~Catalogue(){}
@@ -20,7 +22,6 @@ bool Catalogue::loadFromCSV(const std::string& filename){
     }
     std::cout << "Getting monsters..." << std::endl;
     std::getline(file,line);
-    //gets rid of the definition line
     while(std::getline(file, line)){
         Monster monster = Monster();
         int ctr = 0;
@@ -30,7 +31,6 @@ bool Catalogue::loadFromCSV(const std::string& filename){
             if(!loadCurrentAttribute(monster, cell, ctr))return false;
             ctr++;
         }
-        //std::cout << monster.getName() << " " << monster.getCr() << " " << monster.getType() << " " << monster.getSize() << " "<< monster.getAc() << " " <<monster.getHp() << " " << monster.getAllign() << std::endl;
         _tree.insertNode(monster);
         _size++;
     }
@@ -45,7 +45,7 @@ bool Catalogue::loadCurrentAttribute(Monster &monster, std::string cell, int ctr
             monster.setName(cell);
         } break;
         case 1: {
-            float cr;
+            double cr;
             if(numericCheck(cell)){
                 cr = std::stod(cell);
                 monster.setCr(cr);
@@ -83,7 +83,7 @@ bool Catalogue::loadCurrentAttribute(Monster &monster, std::string cell, int ctr
 }
 
 bool Catalogue::integerCheck(std::string string){
-    for(int i = 0; i < string.size(); i++){
+    for(int i = 0; i < (int)string.size(); i++){
         if(string[i] == '0' || string[i] == '1' ||
             string[i] == '2' || string[i] == '3' ||
             string[i] == '4' || string[i] == '5' ||
@@ -103,7 +103,7 @@ bool Catalogue::numericCheck(std::string string){
             std::cout << "Error with float value!" << std::endl;
         return false;
     }
-    for(int i = 0; i < string.size(); i++){
+    for(int i = 0; i < (int)string.size(); i++){
         if(string[i] == '0' || string[i] == '1' ||
             string[i] == '2' || string[i] == '3' ||
             string[i] == '4' || string[i] == '5' ||
@@ -118,7 +118,6 @@ bool Catalogue::numericCheck(std::string string){
     }
     return true;
 }
-
 
 Monster* Catalogue::getRandomMonster(){
     return _tree.getRandomNode();

@@ -5,6 +5,7 @@
 class Dungeon{
 public:
     Dungeon();
+    ~Dungeon();
     bool createRoom(Monster monster);
     bool clearRooms();
     bool printRooms();

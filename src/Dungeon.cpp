@@ -2,15 +2,19 @@
 
 Dungeon::Dungeon(){}
 
+Dungeon::~Dungeon(){
+    clearRooms();
+}
+
 bool Dungeon::createRoom(Monster monster){
-    Room *newRoom = new(std::nothrow) Room;
-    if(!newRoom){
-        return false;
+    Room newRoom;
+    newRoom.setMonster(monster);
+    if(rooms.insertTail(newRoom)){
+        return true;
     }
-    newRoom->setMonster(monster);
-    if(rooms.insertTail(*newRoom)) return true;
     return false;
 }
+
 bool Dungeon::clearRooms(){
     if(rooms.clear()) return true;
     return false;
