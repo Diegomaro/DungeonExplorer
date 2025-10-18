@@ -1,3 +1,4 @@
+#pragma once
 #include "DoubleLinkedList.hpp"
 #include "Room.hpp"
 

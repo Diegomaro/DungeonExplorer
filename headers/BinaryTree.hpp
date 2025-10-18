@@ -6,10 +6,10 @@ class BinaryTree{
 public:
     class Node{
         public:
-            T _data;
-            Node *_left;
-            Node* _right;
-            short _subSize;
+            T data;
+            Node *left;
+            Node* right;
+            short subSize;
             Node();
             Node(T data);
         private:

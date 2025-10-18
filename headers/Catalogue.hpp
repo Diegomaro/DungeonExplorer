@@ -7,10 +7,12 @@ public:
     Catalogue();
     ~Catalogue();
     bool loadFromCSV(const std::string& filename);
-    bool printAllMonsters(); //temporal function
+    bool printAllMonsters(); //temporal function to check if all monsters were added
     Monster* getRandomMonster();
 private:
     int _size;
-    BinaryTree<Monster> tree;
-    void loadCurrentAttribute(Monster &monster, std::stringstream &ss, std::string cell, int ctr);
+    BinaryTree<Monster> _tree;
+    bool loadCurrentAttribute(Monster &monster, std::string cell, int ctr);
+    bool integerCheck(std::string string);
+    bool numericCheck(std::string string);
 };

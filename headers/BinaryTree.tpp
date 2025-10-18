@@ -2,9 +2,9 @@
 #include "BinaryTree.hpp"
 
 template <typename T>
-BinaryTree<T>::Node::Node(): _left(nullptr), _right(nullptr), _subSize(1){};
+BinaryTree<T>::Node::Node(): left(nullptr), right(nullptr), subSize(1){};
 template <typename T>
-BinaryTree<T>::Node::Node(T data): _data(data), _left(nullptr), _right(nullptr), _subSize(1){};
+BinaryTree<T>::Node::Node(T data): data(data), left(nullptr), right(nullptr), subSize(1){};
 
 template <typename T>
 BinaryTree<T>::BinaryTree(): root(nullptr) {};
@@ -26,21 +26,21 @@ bool BinaryTree<T>::insertNode(T data){
     }
     Node* tmp = root;
 
-    while(tmp->_left || tmp->_right){
-        tmp->_subSize++;
-        if(tmp->_data > data) {
-            if(tmp->_left){
-                tmp = tmp->_left;
+    while(tmp->left || tmp->right){
+        tmp->subSize++;
+        if(tmp->data > data) {
+            if(tmp->left){
+                tmp = tmp->left;
             } else{
-                tmp->_left = newNode;
+                tmp->left = newNode;
                 return true;
             }
         }
-        else if(tmp->_data < data) {
-            if(tmp->_right){
-                tmp = tmp->_right;
+        else if(tmp->data < data) {
+            if(tmp->right){
+                tmp = tmp->right;
             } else{
-                tmp->_right = newNode;
+                tmp->right = newNode;
                 return true;
             }
         }
@@ -48,19 +48,19 @@ bool BinaryTree<T>::insertNode(T data){
             delete newNode;
             tmp = root;
             while(tmp){
-                tmp->_subSize--;
-                if(data > tmp->_data) tmp = tmp->_right;
-                else if(data < tmp->_data) tmp = tmp->_left;
+                tmp->subSize--;
+                if(data > tmp->data) tmp = tmp->right;
+                else if(data < tmp->data) tmp = tmp->left;
                 else return false;
             }
         }
     }
-    tmp->_subSize++;
-    if(data < tmp->_data){
-        tmp->_left = newNode;
+    tmp->subSize++;
+    if(data < tmp->data){
+        tmp->left = newNode;
         return true;
-    } else if (data > tmp->_data){
-        tmp->_right = newNode;
+    } else if (data > tmp->data){
+        tmp->right = newNode;
         return true;
     }
     delete newNode;
@@ -75,13 +75,13 @@ bool BinaryTree<T>::deleteNode(T data){
 template <typename T>
 bool BinaryTree<T>::findNodeToDelete(Node *&node, T data){
     if(!node) return false;
-    if(node->_data < data) {
-        bool found = findNodeToDelete(node->_right, data);
-        if(found) node->_subSize--;
+    if(node->data < data) {
+        bool found = findNodeToDelete(node->right, data);
+        if(found) node->subSize--;
         return found;
-    } else if(node->_data > data) {
-        bool found = findNodeToDelete(node->_left, data);
-        if(found) node->_subSize--;
+    } else if(node->data > data) {
+        bool found = findNodeToDelete(node->left, data);
+        if(found) node->subSize--;
         return found;
     } else{
         deleteNodeExecute(node);
@@ -92,33 +92,33 @@ bool BinaryTree<T>::findNodeToDelete(Node *&node, T data){
 
 template <typename T>
 void BinaryTree<T>::deleteNodeExecute(Node *&node){
-    if(!node->_left && !node->_right){
+    if(!node->left && !node->right){
         delete node;
         node = nullptr;
         return;
     }
-    if(!node->_left){
-        Node* tmp = node->_right;
+    if(!node->left){
+        Node* tmp = node->right;
         delete node;
         node = tmp;
         return;
     }
-    if(!node->_right){
-        Node* tmp = node->_left;
+    if(!node->right){
+        Node* tmp = node->left;
         delete node;
         node = tmp;
         return;
     }
-    node->_subSize--;
-    Node *&tmpNode = findMinNode(node->_right);
-    if(!tmpNode->_right){
-        node->_data = tmpNode->_data;
+    node->subSize--;
+    Node *&tmpNode = findMinNode(node->right);
+    if(!tmpNode->right){
+        node->data = tmpNode->data;
         delete tmpNode;
         tmpNode = nullptr;
         return;
     }
-    node->_data = tmpNode->_data;
-    Node* tmpSon = tmpNode->_right;
+    node->data = tmpNode->data;
+    Node* tmpSon = tmpNode->right;
     delete tmpNode;
     tmpNode = tmpSon;
     return;
@@ -126,9 +126,9 @@ void BinaryTree<T>::deleteNodeExecute(Node *&node){
 
 template <typename T>
 typename BinaryTree<T>::Node *&BinaryTree<T>::findMinNode(Node *&node){
-    node->_subSize--;
-    if(node->_left){
-        return findMinNode(node->_left);
+    node->subSize--;
+    if(node->left){
+        return findMinNode(node->left);
     }
     return node;
 }
@@ -143,10 +143,10 @@ bool BinaryTree<T>::searchNodeExecution(Node* node, T data){
     if(!node){
         return false;
     }
-    if(data < node->_data){
-        return searchNodeExecution(node->_left, data);
-    } else if(data > node->_data){
-        return searchNodeExecution(node->_right, data);
+    if(data < node->data){
+        return searchNodeExecution(node->left, data);
+    } else if(data > node->data){
+        return searchNodeExecution(node->right, data);
     } 
     return true;
 }
@@ -159,30 +159,30 @@ bool BinaryTree<T>::isEmpty(){
 
 template <typename T>
 T *BinaryTree<T>::getRandomNode(){
-    return &getRandomNodeExecute(root)->_data;
+    return &getRandomNodeExecute(root)->data;
 }
 
 template <typename T>
 typename BinaryTree<T>::Node *BinaryTree<T>::getRandomNodeExecute(Node* node){
     if(!node) return nullptr;
-    int x = rand() %(node->_subSize);
+    int x = rand() %(node->subSize);
     if(x==0){
         return node;
     }
-    if(node->_left && node->_right){
-        int k = node->_left->_subSize;
-        int randX = rand() % (node->_right->_subSize + node->_left->_subSize);
+    if(node->left && node->right){
+        int k = node->left->subSize;
+        int randX = rand() % (node->right->subSize + node->left->subSize);
         if(k > randX){
-            return getRandomNodeExecute(node->_left);
+            return getRandomNodeExecute(node->left);
         } else{
-            return getRandomNodeExecute(node->_right);
+            return getRandomNodeExecute(node->right);
         }
     }
-    else if(node->_left){
-        return getRandomNodeExecute(node->_left);
+    else if(node->left){
+        return getRandomNodeExecute(node->left);
     }
-    else if (node->_right){
-        return getRandomNodeExecute(node->_right);
+    else if (node->right){
+        return getRandomNodeExecute(node->right);
     }
     return nullptr;
 }
@@ -197,17 +197,15 @@ bool BinaryTree<T>::printAll(){
 
 template <typename T>
 void BinaryTree<T>::printAllExecution(Node* node, int curDepth){
-    if(node->_right){
-        printAllExecution(node->_right, curDepth + 1);
+    if(node->right){
+        printAllExecution(node->right, curDepth + 1);
     }
      for(int i = 0; i < curDepth; i++){
             std::cout << "    ";
         }
-    std::cout << node->_data << std::endl;
-    //std::cout << node->_subSize << std::endl;
-
-    if(node->_left){
-        printAllExecution(node->_left, curDepth + 1);
+    std::cout << node->data << std::endl;
+    if(node->left){
+        printAllExecution(node->left, curDepth + 1);
     }
 }
 
@@ -220,11 +218,11 @@ bool BinaryTree<T>::clear(){
 
 template <typename T>
 void BinaryTree<T>::clearExecute(Node *&curNode){
-    if(curNode->_left){
-        clearExecute(curNode->_left);
+    if(curNode->left){
+        clearExecute(curNode->left);
     }
-    if(curNode->_right){
-        clearExecute(curNode->_right);
+    if(curNode->right){
+        clearExecute(curNode->right);
     }
     delete curNode;
     curNode = nullptr;

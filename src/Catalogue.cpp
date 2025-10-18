@@ -18,7 +18,7 @@ bool Catalogue::loadFromCSV(const std::string& filename){
     if(!file.is_open()){
         return false;
     }
-    //loading monsters...
+    std::cout << "Getting monsters..." << std::endl;
     std::getline(file,line);
     //gets rid of the definition line
     while(std::getline(file, line)){
@@ -27,56 +27,103 @@ bool Catalogue::loadFromCSV(const std::string& filename){
         std::stringstream ss(line);
         std::string cell;
         while(getline(ss, cell, ',')){
-            loadCurrentAttribute(monster, ss, cell, ctr);
+            if(!loadCurrentAttribute(monster, cell, ctr))return false;
             ctr++;
         }
-        tree.insertNode(monster);
+        //std::cout << monster.getName() << " " << monster.getCr() << " " << monster.getType() << " " << monster.getSize() << " "<< monster.getAc() << " " <<monster.getHp() << " " << monster.getAllign() << std::endl;
+        _tree.insertNode(monster);
         _size++;
     }
     file.close();
     return true;
 }
 
-void Catalogue::loadCurrentAttribute(Monster &monster, std::stringstream &ss, std::string cell, int ctr){
+bool Catalogue::loadCurrentAttribute(Monster &monster, std::string cell, int ctr){
+    if(cell.empty()) return false;
     switch(ctr){
-        case 0: {				
+        case 0: {
             monster.setName(cell);
         } break;
-        case 1: {				
-            int cr;
-            ss >> cr;
-            monster.setCr(cr);
-            //hacer comprobacion de floats
+        case 1: {
+            float cr;
+            if(numericCheck(cell)){
+                cr = std::stod(cell);
+                monster.setCr(cr);
+            } else return false;
         } break;
-        case 2: {				
+        case 2: {
             monster.setType(cell);
         } break;
-        case 3: {				
+        case 3: {
             monster.setSize(cell);
         } break;
-        case 4: {		
+        case 4: {
             int ac;
-            ss >> ac;		
-            monster.setAc(ac);
+            if(integerCheck(cell)){
+                ac = std::stoi(cell);
+                monster.setAc(ac);
+            } else return false;
         } break;
-        case 5: {	
+        case 5: {
             int hp;
-            ss >> hp;			
-            monster.setHp(hp);
+            if(integerCheck(cell)){
+                hp = std::stoi(cell);
+                monster.setHp(hp);
+            } else return false;
         } break;
-        case 6: {				
+        case 6: {
             monster.setAllign(cell);
         } break;
         default: {
             std::cout << "Error defining monsters!" << std::endl;
+            return false;
         }
     }
+    return true;
 }
 
+bool Catalogue::integerCheck(std::string string){
+    for(int i = 0; i < string.size(); i++){
+        if(string[i] == '0' || string[i] == '1' ||
+            string[i] == '2' || string[i] == '3' ||
+            string[i] == '4' || string[i] == '5' ||
+            string[i] == '6' || string[i] == '7' ||
+            string[i] == '8' || string[i] == '9'){
+        } else {
+            std::cout << "Error with integer value!" << std::endl;
+            return false;
+        }   
+    }
+    return true;
+}
+
+bool Catalogue::numericCheck(std::string string){
+    bool dot = false;
+    if(string[0] == '.') {
+            std::cout << "Error with float value!" << std::endl;
+        return false;
+    }
+    for(int i = 0; i < string.size(); i++){
+        if(string[i] == '0' || string[i] == '1' ||
+            string[i] == '2' || string[i] == '3' ||
+            string[i] == '4' || string[i] == '5' ||
+            string[i] == '6' || string[i] == '7' ||
+            string[i] == '8' || string[i] == '9'){
+        } else if(string[i] == '.' && dot == false){
+            dot = true;
+        } else {
+            std::cout << "Error with float value!" << std::endl;
+            return false;
+        }
+    }
+    return true;
+}
+
+
 Monster* Catalogue::getRandomMonster(){
-    return tree.getRandomNode();
+    return _tree.getRandomNode();
 }
 
 bool Catalogue::printAllMonsters(){
-    return tree.printAll();
+    return _tree.printAll();
 }

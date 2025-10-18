@@ -8,7 +8,8 @@ int main(){
     Catalogue catalogue;
     Dungeon dungeon;
     if(!catalogue.loadFromCSV("media/monsters.csv")){
-        std::cout << "Could not find file!" << std::endl;
+        std::cout << "Could not create file!" << std::endl;
+        return 0;
     }
     std::cout << "Creating Dungeon..." << std::endl;
     for (int i = 0; i < NUM_ROOMS; i++){
