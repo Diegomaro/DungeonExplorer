@@ -7,7 +7,7 @@ public:
     Catalogue();
     ~Catalogue();
     bool loadFromCSV(const std::string& filename);
-    bool printAllMonsters(); //temporal function to check if all monsters were added
+    bool printAllMonsters();
     Monster* getRandomMonster();
 private:
     int _size;

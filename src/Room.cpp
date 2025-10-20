@@ -1,8 +1,6 @@
 #include "Room.hpp"
 
-void Room::setMonster(Monster monster){
-    _monster = monster;
-}
+Room::Room(Monster monster): _monster(monster) {}
 
 Monster& Room::getMonster(){
     return _monster;

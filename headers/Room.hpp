@@ -3,7 +3,7 @@
 
 class Room{
 public:
-    void setMonster(Monster monster);
+    Room(Monster monster);
     Monster& getMonster();
     friend std::ostream& operator << (std::ostream &COUT, Room &ROOM);
 private:

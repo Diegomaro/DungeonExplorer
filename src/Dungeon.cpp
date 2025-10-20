@@ -7,8 +7,7 @@ Dungeon::~Dungeon(){
 }
 
 bool Dungeon::createRoom(Monster monster){
-    Room newRoom;
-    newRoom.setMonster(monster);
+    Room newRoom(monster);
     if(rooms.insertTail(newRoom)){
         return true;
     }
